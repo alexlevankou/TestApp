@@ -4,14 +4,21 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import by.alexlevankou.testapp.R;
+import by.alexlevankou.testapp.adapter.RecyclerViewAdapter;
+import by.alexlevankou.testapp.model.DataEntity;
+import by.alexlevankou.testapp.presenter.BaseContract;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements BaseContract.View {
+
+    private RecyclerViewAdapter adapter;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,11 +27,22 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        recyclerView = findViewById(R.id.list);
+        adapter = new RecyclerViewAdapter();
+        recyclerView.setAdapter(adapter);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                // move to presenter
+                // randomize it
+                DataEntity entity = new DataEntity();
+                entity.setUserId(4);
+                entity.setName("John");
+                entity.setBody("Raven");
+                entity.setNumber(4.45);
+                adapter.addItem(entity);
             }
         });
     }

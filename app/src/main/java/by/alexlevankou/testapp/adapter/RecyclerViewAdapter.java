@@ -16,15 +16,17 @@ import by.alexlevankou.testapp.R;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     private List<DataEntity> values;
-    //private final ListFragment.OnListFragmentInteractionListener mListener;
 
-    public RecyclerViewAdapter(Context context/*, ListFragment.OnListFragmentInteractionListener listener*/) {
-        //mListener = listener;
+    public RecyclerViewAdapter() {
         values = new ArrayList<>();
     }
 
-    public void setItems(List<DataEntity> items)
-    {
+    public void addItem(DataEntity item) {
+        values.add(item);
+        notifyDataSetChanged();
+    }
+
+    public void setItems(List<DataEntity> items) {
         values = items;
         notifyDataSetChanged();
     }
@@ -38,16 +40,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.item = values.get(position);
-        holder.view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                if (null != mListener) {
-//                    mListener.onListFragmentInteraction(holder.item.getId());
-//                }
-            }
-        });
+        holder.idText.setText(Integer.toString(holder.item.getId()));
+        holder.userIdText.setText(Integer.toString(holder.item.getUserId()));
         holder.nameText.setText(holder.item.getName());
         holder.bodyText.setText(holder.item.getBody());
+        holder.numberText.setText(Double.toString(holder.item.getUserId()));
     }
 
     @Override
