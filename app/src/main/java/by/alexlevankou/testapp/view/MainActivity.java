@@ -9,16 +9,18 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import by.alexlevankou.testapp.R;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(by.alexlevankou.testapp.R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(by.alexlevankou.testapp.R.id.toolbar);
+        setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(by.alexlevankou.testapp.R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -30,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(by.alexlevankou.testapp.R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -42,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == by.alexlevankou.testapp.R.id.action_settings) {
+        if (id == R.id.action_settings) {
             return true;
         }
 
