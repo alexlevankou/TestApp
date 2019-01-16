@@ -7,7 +7,7 @@ import android.arch.lifecycle.ViewModel;
 
 import io.reactivex.disposables.CompositeDisposable;
 
-abstract class BasePresenter<View> extends ViewModel implements LifecycleObserver, BaseContract.Presenter {
+public abstract class BasePresenter<View> extends ViewModel implements LifecycleObserver, BaseContract.Presenter {
 
     protected CompositeDisposable disposables;
     protected View view = null;

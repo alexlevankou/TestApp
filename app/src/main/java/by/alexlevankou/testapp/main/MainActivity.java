@@ -1,5 +1,7 @@
-package by.alexlevankou.testapp.view;
+package by.alexlevankou.testapp.main;
 
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -11,7 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import by.alexlevankou.testapp.R;
-import by.alexlevankou.testapp.adapter.RecyclerViewAdapter;
+import by.alexlevankou.testapp.main.adapter.RecyclerViewAdapter;
 import by.alexlevankou.testapp.model.DataEntity;
 import by.alexlevankou.testapp.presenter.BaseContract;
 
@@ -19,6 +21,7 @@ public class MainActivity extends AppCompatActivity implements BaseContract.View
 
     private RecyclerViewAdapter adapter;
     private RecyclerView recyclerView;
+    private MainPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,18 +35,14 @@ public class MainActivity extends AppCompatActivity implements BaseContract.View
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
+        presenter = ViewModelProviders.of(this).get(MainPresenter.class);
+        presenter.attachView(this, getLifecycle());
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // move to presenter
-                // randomize it
-                DataEntity entity = new DataEntity();
-                entity.setUserId(4);
-                entity.setName("John");
-                entity.setBody("Raven");
-                entity.setNumber(4.45);
-                adapter.addItem(entity);
+                presenter.addEntity();
             }
         });
     }

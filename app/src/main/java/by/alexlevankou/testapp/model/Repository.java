@@ -2,7 +2,6 @@ package by.alexlevankou.testapp.model;
 
 import android.support.annotation.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import by.alexlevankou.testapp.presenter.BaseContract;

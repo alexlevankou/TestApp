@@ -14,9 +14,9 @@ public class BaseContract {
 
     public interface Presenter {
         void attachView(View view, Lifecycle viewLifecycle);
-        void onAddClicked();
+        void addEntity();
 
-        }
+    }
 
     public interface Model {
         void addEntity(DataEntity dataEntity);
