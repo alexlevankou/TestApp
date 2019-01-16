@@ -20,11 +20,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         values = new ArrayList<>();
     }
 
-    public void addItem(DataEntity item) {
-        values.add(item);
-        notifyDataSetChanged();
-    }
-
     public void setItems(List<DataEntity> items) {
         values = items;
         notifyDataSetChanged();

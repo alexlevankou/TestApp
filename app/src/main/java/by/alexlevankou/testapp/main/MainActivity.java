@@ -11,6 +11,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
+import java.util.List;
 
 import by.alexlevankou.testapp.R;
 import by.alexlevankou.testapp.main.adapter.RecyclerViewAdapter;
@@ -19,9 +23,12 @@ import by.alexlevankou.testapp.presenter.BaseContract;
 
 public class MainActivity extends AppCompatActivity implements BaseContract.View {
 
-    private RecyclerViewAdapter adapter;
-    private RecyclerView recyclerView;
-    private MainPresenter presenter;
+    private RecyclerView mRecyclerView;
+    private TextView mNoDataText;
+    private ProgressBar mProgressBar;
+
+    private RecyclerViewAdapter mAdapter;
+    private MainPresenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,42 +37,60 @@ public class MainActivity extends AppCompatActivity implements BaseContract.View
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        recyclerView = findViewById(R.id.list);
-        adapter = new RecyclerViewAdapter();
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
+        mRecyclerView = findViewById(R.id.list);
+        mAdapter = new RecyclerViewAdapter();
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setAdapter(mAdapter);
 
-        presenter = ViewModelProviders.of(this).get(MainPresenter.class);
-        presenter.attachView(this, getLifecycle());
+        mPresenter = ViewModelProviders.of(this).get(MainPresenter.class);
+        mPresenter.attachView(this, getLifecycle());
+        mPresenter.getAllEntities();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.addEntity();
+                mPresenter.addEntity();
             }
         });
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_search) {
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void updateList(List<DataEntity> entities){
+        mRecyclerView.setVisibility(View.VISIBLE);
+        mNoDataText.setVisibility(View.GONE);
+        mAdapter.setItems(entities);
+    }
+
+    public void showLoading(){
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    public void hideLoading(){
+        mProgressBar.setVisibility(View.GONE);
+    }
+
+    public void showNoDataText(){
+        mRecyclerView.setVisibility(View.GONE);
+        mNoDataText.setVisibility(View.VISIBLE);
     }
 }

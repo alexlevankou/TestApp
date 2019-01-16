@@ -22,7 +22,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="1"
+            android:text="@string/temp_id"
             android:textAppearance="@style/Caption"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
-            android:text="Name"
+            android:text="@string/temp_name"
             android:textAppearance="@style/Text.Primary"
             card_view:layout_constraintStart_toEndOf="@+id/idText"
             card_view:layout_constraintTop_toTopOf="parent"/>
@@ -44,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:text="UserId"
+            android:text="@string/temp_userId"
             android:textAppearance="@style/Text.Primary"
             card_view:layout_constraintBaseline_toBaselineOf="@+id/nameText"
             card_view:layout_constraintStart_toEndOf="@+id/nameText"/>
@@ -54,7 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="body"
+            android:text="@string/temp_body"
             android:textAppearance="@style/Text.Secondary"
             card_view:layout_constraintStart_toStartOf="@+id/nameText"
             card_view:layout_constraintTop_toBottomOf="@+id/nameText"/>
@@ -64,7 +64,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:text="number"
+            android:text="@string/temp_number"
             android:textAppearance="@style/Text.Secondary"
             card_view:layout_constraintBaseline_toBaselineOf="@+id/bodyText"
             card_view:layout_constraintStart_toEndOf="@+id/bodyText"/>

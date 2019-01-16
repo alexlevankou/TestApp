@@ -10,11 +10,17 @@ import io.reactivex.Flowable;
 public class BaseContract {
 
     public interface View {
+        void updateList(List<DataEntity> entities);
+        void showLoading();
+        void hideLoading();
+        void showNoDataText();
+
     }
 
     public interface Presenter {
         void attachView(View view, Lifecycle viewLifecycle);
         void addEntity();
+        void getAllEntities();
 
     }
 

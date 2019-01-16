@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">TestApp</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_search">Search</string>
+
+    <string name="temp_id">1</string>
+    <string name="temp_userId">2</string>
+    <string name="temp_number">3.14</string>
+    <string name="temp_name">Name</string>
+    <string name="temp_body">Body</string>
+
 </resources>
