@@ -7,9 +7,11 @@ import by.alexlevankou.testapp.App;
 import by.alexlevankou.testapp.model.DataEntity;
 import by.alexlevankou.testapp.presenter.BaseContract;
 import by.alexlevankou.testapp.presenter.BasePresenter;
+import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 public class MainPresenter extends BasePresenter<BaseContract.View> {
 
@@ -36,44 +38,28 @@ public class MainPresenter extends BasePresenter<BaseContract.View> {
 
     @Override
     public void addEntity() {
-
-        DataEntity entity = new DataEntity();
-        // randomize
-        entity.setUserId(4);
-        entity.setName("John");
-        entity.setBody("Raven");
-        entity.setNumber(4.45);
-
-        // model.addEntity
-        //Observable.fromCallable(() -> db.countriesDao().addCountries())
-
+        Completable.fromAction(() -> repository
+                .addEntity(generateRandomEntity()))
+                .subscribeOn(Schedulers.io())
+                .subscribe();
     }
 
     private DataEntity generateRandomEntity(){
         DataEntity entity = new DataEntity();
-
+        entity.setUserId(new Random().nextInt(100));
+        entity.setNumber(new Random().nextDouble()*100);
+        entity.setName(getRandomString(5));
+        entity.setBody(getRandomString(10));
         return entity;
     }
 
-    private int getRandomInt(){
-        final int MIN = 0;
-        final int MAX = 100;
+    private String getRandomString(int length){
+        final String charArray = "abcdefghijklmnopqrstuvwxyz";
         Random r = new Random();
-        return r.nextInt((MAX - MIN) + 1) + MIN;
+        StringBuilder stringBuilder = new StringBuilder(length);
+        for(int i = 0; i < length; i++){
+            stringBuilder.append(charArray.charAt(r.nextInt(charArray.length())));
+        }
+        return stringBuilder.toString();
     }
-
-    private double getRandomDouble(){
-        final double MIN = 0.0;
-        final double MAX = 100.0;
-        Random r = new Random();
-        return r.nextDouble()*MAX + MIN;
-    }
-
-
-//    private String getRandomString(){
-//        final double MIN = 0.0;
-//        final double MAX = 100.0;
-//        Random r = new Random();
-//        return r.nextDouble()*MAX + MIN;
-//    }
 }

@@ -1,6 +1,5 @@
 package by.alexlevankou.testapp.main;
 
-import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -16,7 +15,6 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import by.alexlevankou.testapp.App;
 import by.alexlevankou.testapp.R;
 import by.alexlevankou.testapp.main.adapter.RecyclerViewAdapter;
 import by.alexlevankou.testapp.model.DataEntity;
@@ -46,7 +44,6 @@ public class MainActivity extends AppCompatActivity implements BaseContract.View
         mRecyclerView.setAdapter(mAdapter);
 
         mPresenter = ViewModelProviders.of(this).get(MainPresenter.class);
-        //mPresenter = App.getComponent().getPresenter();
         mPresenter.attachView(this, getLifecycle());
         mPresenter.getAllEntities();
 
