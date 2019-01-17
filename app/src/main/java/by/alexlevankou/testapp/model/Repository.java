@@ -32,6 +32,12 @@ public class Repository implements BaseContract.Model {
     }
 
     @Override
+    @Nullable
+    public Flowable<List<DataEntity>> getSearchResults(String search) {
+        return mDataEntityDao.getSearchResults(search);
+    }
+
+    @Override
     public void addEntity(DataEntity dataEntity) {
         mDataEntityDao.insert(dataEntity);
     }

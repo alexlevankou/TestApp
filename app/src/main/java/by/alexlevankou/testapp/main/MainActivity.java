@@ -1,11 +1,14 @@
 package by.alexlevankou.testapp.main;
 
+import android.app.SearchManager;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -59,19 +62,32 @@ public class MainActivity extends AppCompatActivity implements BaseContract.View
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        MenuItem searchItem = menu.findItem( R.id.action_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                searchItem.collapseActionView();
+                mPresenter.getAllEntities();
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String s) {
+                mPresenter.search(s);
+                return false;
+            }
+        });
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_search) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 

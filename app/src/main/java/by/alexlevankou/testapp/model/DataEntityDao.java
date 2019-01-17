@@ -22,6 +22,10 @@ public interface DataEntityDao {
     @Query("SELECT * FROM dataentity WHERE id = :id")
     Flowable<DataEntity> getEntityById(int id);
 
+    @Nullable
+    @Query("SELECT * FROM dataentity WHERE name LIKE '%' || :search  || '%' OR body LIKE '%' || :search  || '%'")
+    Flowable<List<DataEntity>> getSearchResults(String search);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(DataEntity dataEntity);
 

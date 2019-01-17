@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import by.alexlevankou.testapp.model.DataEntity;
@@ -22,6 +24,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public void setItems(List<DataEntity> items) {
         values = items;
+        Collections.sort(values, new Comparator<DataEntity>() {
+            @Override
+            public int compare(DataEntity lhs, DataEntity rhs) {
+                int cmp = compareUserId(lhs.getUserId(), rhs.getUserId());
+                if( cmp == 0) {
+                    return lhs.getName().compareTo(rhs.getName());
+                }
+                return cmp;
+            }
+
+            private int compareUserId(int lhs, int rhs) {
+                return Integer.signum(lhs - rhs);
+            }
+        });
         notifyDataSetChanged();
     }
 

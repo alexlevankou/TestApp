@@ -21,6 +21,7 @@ public class BaseContract {
         void attachView(View view, Lifecycle viewLifecycle);
         void addEntity();
         void getAllEntities();
+        void search(String query);
 
     }
 
@@ -28,5 +29,6 @@ public class BaseContract {
         void addEntity(DataEntity dataEntity);
         Flowable<DataEntity> getEntity(int id);
         Flowable<List<DataEntity>> getAllEntities();
+        Flowable<List<DataEntity>> getSearchResults(String search);
     }
 }

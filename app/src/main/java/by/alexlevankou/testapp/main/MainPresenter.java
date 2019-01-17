@@ -17,6 +17,28 @@ public class MainPresenter extends BasePresenter<BaseContract.View> {
 
 
     @Override
+    public void search(String query) {
+        if(query.length() > 0){
+            Disposable disposable = repository.getSearchResults(query)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<List<DataEntity>>() {
+                        @Override
+                        public void accept(List<DataEntity> entities) throws Exception {
+                            if(entities != null && entities.size() > 0) {
+                                view.updateList(entities);
+                            } else {
+                                view.showNoDataText();
+                            }
+                        }
+                    });
+            disposables.add(disposable);
+        } else {
+            getAllEntities();
+        }
+
+    }
+
+    @Override
     public void getAllEntities() {
         App.getComponent().inject(this);
 
@@ -46,8 +68,9 @@ public class MainPresenter extends BasePresenter<BaseContract.View> {
 
     private DataEntity generateRandomEntity(){
         DataEntity entity = new DataEntity();
-        entity.setUserId(new Random().nextInt(100));
-        entity.setNumber(new Random().nextDouble()*100);
+        Random rnd = new Random();
+        entity.setUserId(rnd.nextInt(10));
+        entity.setNumber(rnd.nextDouble()*100);
         entity.setName(getRandomString(5));
         entity.setBody(getRandomString(10));
         return entity;
