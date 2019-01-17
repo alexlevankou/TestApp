@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import by.alexlevankou.testapp.App;
 import by.alexlevankou.testapp.R;
 import by.alexlevankou.testapp.main.adapter.RecyclerViewAdapter;
 import by.alexlevankou.testapp.model.DataEntity;
@@ -37,12 +38,15 @@ public class MainActivity extends AppCompatActivity implements BaseContract.View
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        mNoDataText = findViewById(R.id.no_data_text);
+        mProgressBar = findViewById(R.id.progressBar);
         mRecyclerView = findViewById(R.id.list);
         mAdapter = new RecyclerViewAdapter();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
 
         mPresenter = ViewModelProviders.of(this).get(MainPresenter.class);
+        //mPresenter = App.getComponent().getPresenter();
         mPresenter.attachView(this, getLifecycle());
         mPresenter.getAllEntities();
 

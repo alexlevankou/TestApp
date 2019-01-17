@@ -8,4 +8,7 @@
     <string name="temp_name">Name</string>
     <string name="temp_body">Body</string>
 
+    <string name="no_list_data">No data</string>
+
+
 </resources>
