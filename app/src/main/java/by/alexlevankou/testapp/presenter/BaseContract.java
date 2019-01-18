@@ -14,20 +14,24 @@ public class BaseContract {
         void showLoading();
         void hideLoading();
         void showNoDataText();
+        void endSearch();
 
     }
 
     public interface Presenter {
-        void attachView(View view, Lifecycle viewLifecycle);
+        void getRepository();
         void addEntity();
+        void getEntities(Flowable<List<DataEntity>> flowable);
         void getAllEntities();
-        void search(String query);
+        void getSearchEntities(String search);
+        void search(String search);
+        void updateList(List<DataEntity> entities);
 
+        void onSearchEnd();
     }
 
     public interface Model {
         void addEntity(DataEntity dataEntity);
-        Flowable<DataEntity> getEntity(int id);
         Flowable<List<DataEntity>> getAllEntities();
         Flowable<List<DataEntity>> getSearchResults(String search);
     }

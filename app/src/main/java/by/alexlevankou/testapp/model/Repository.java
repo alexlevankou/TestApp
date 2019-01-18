@@ -21,11 +21,6 @@ public class Repository implements BaseContract.Model {
     }
 
     @Override
-    public Flowable<DataEntity> getEntity(int entityId) {
-        return mDataEntityDao.getEntityById(entityId);
-    }
-
-    @Override
     @Nullable
     public Flowable<List<DataEntity>> getAllEntities() {
         return mDataEntityDao.getAllEntities();

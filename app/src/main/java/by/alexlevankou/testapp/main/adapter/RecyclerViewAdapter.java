@@ -1,5 +1,6 @@
 package by.alexlevankou.testapp.main.adapter;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,24 +8,20 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import by.alexlevankou.testapp.model.DataEntity;
 import by.alexlevankou.testapp.R;
+import by.alexlevankou.testapp.model.DataEntity;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     private List<DataEntity> values;
+    private Comparator<DataEntity> comparator;
 
     public RecyclerViewAdapter() {
         values = new ArrayList<>();
-    }
-
-    public void setItems(List<DataEntity> items) {
-        values = items;
-        Collections.sort(values, new Comparator<DataEntity>() {
+        comparator = new Comparator<DataEntity>() {
             @Override
             public int compare(DataEntity lhs, DataEntity rhs) {
                 int cmp = compareUserId(lhs.getUserId(), rhs.getUserId());
@@ -37,18 +34,24 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             private int compareUserId(int lhs, int rhs) {
                 return Integer.signum(lhs - rhs);
             }
-        });
+        };
+    }
+
+    public void setItems(List<DataEntity> items) {
+        values = items;
+        values.sort(comparator);
         notifyDataSetChanged();
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         holder.item = values.get(position);
         holder.idText.setText(Integer.toString(holder.item.getId()));
         holder.userIdText.setText(Integer.toString(holder.item.getUserId()));
@@ -62,7 +65,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return values.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
         final View view;
         final TextView idText;
         final TextView userIdText;

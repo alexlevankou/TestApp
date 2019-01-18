@@ -7,7 +7,6 @@ import android.arch.lifecycle.ViewModel;
 
 import javax.inject.Inject;
 
-import by.alexlevankou.testapp.App;
 import by.alexlevankou.testapp.model.Repository;
 import io.reactivex.disposables.CompositeDisposable;
 
@@ -25,7 +24,7 @@ public abstract class BasePresenter<View> extends ViewModel implements Lifecycle
         this.viewLifecycle = viewLifecycle;
         viewLifecycle.addObserver(this);
         disposables = new CompositeDisposable();
-
+        getRepository();
     }
 
     protected View view() {

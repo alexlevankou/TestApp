@@ -3,9 +3,7 @@ package by.alexlevankou.testapp.dagger;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 
-import javax.inject.Inject;
 import javax.inject.Named;
-import javax.inject.Singleton;
 
 import by.alexlevankou.testapp.model.DataEntityDatabase;
 import by.alexlevankou.testapp.model.Repository;

@@ -8,54 +8,63 @@ import by.alexlevankou.testapp.model.DataEntity;
 import by.alexlevankou.testapp.presenter.BaseContract;
 import by.alexlevankou.testapp.presenter.BasePresenter;
 import io.reactivex.Completable;
+import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 public class MainPresenter extends BasePresenter<BaseContract.View> {
 
+    @Override
+    public void getRepository(){
+        App.getComponent().inject(this);
+    }
 
     @Override
     public void search(String query) {
         if(query.length() > 0){
-            Disposable disposable = repository.getSearchResults(query)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Consumer<List<DataEntity>>() {
-                        @Override
-                        public void accept(List<DataEntity> entities) throws Exception {
-                            if(entities != null && entities.size() > 0) {
-                                view.updateList(entities);
-                            } else {
-                                view.showNoDataText();
-                            }
-                        }
-                    });
-            disposables.add(disposable);
+            getSearchEntities(query);
         } else {
             getAllEntities();
         }
+    }
 
+    @Override
+    public void getEntities(Flowable<List<DataEntity>> flowable){
+        view.showLoading();
+        Disposable disposable = flowable
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(entities -> {
+                    view.hideLoading();
+                    updateList(entities);
+                });
+        disposables.add(disposable);
     }
 
     @Override
     public void getAllEntities() {
-        App.getComponent().inject(this);
+        getEntities(repository.getAllEntities());
+    }
 
-        Disposable disposable = repository.getAllEntities()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<List<DataEntity>>() {
-                    @Override
-                    public void accept(List<DataEntity> entities) throws Exception {
-                        view.hideLoading();
-                        if(entities != null && entities.size() > 0) {
-                            view.updateList(entities);
-                        } else {
-                            view.showNoDataText();
-                        }
-                    }
-                });
-        disposables.add(disposable);
+
+    @Override
+    public void getSearchEntities(String search){
+        getEntities(repository.getSearchResults(search));
+    }
+
+    @Override
+    public void updateList(List<DataEntity> entities){
+        if(entities != null && entities.size() > 0) {
+            view.updateList(entities);
+        } else {
+            view.showNoDataText();
+        }
+    }
+
+    @Override
+    public void onSearchEnd(){
+        getAllEntities();
+        view.endSearch();
     }
 
     @Override
@@ -71,17 +80,16 @@ public class MainPresenter extends BasePresenter<BaseContract.View> {
         Random rnd = new Random();
         entity.setUserId(rnd.nextInt(10));
         entity.setNumber(rnd.nextDouble()*100);
-        entity.setName(getRandomString(5));
-        entity.setBody(getRandomString(10));
+        entity.setName(getRandomString(rnd, 5));
+        entity.setBody(getRandomString(rnd, 10));
         return entity;
     }
 
-    private String getRandomString(int length){
+    private String getRandomString(Random rnd, int length){
         final String charArray = "abcdefghijklmnopqrstuvwxyz";
-        Random r = new Random();
         StringBuilder stringBuilder = new StringBuilder(length);
         for(int i = 0; i < length; i++){
-            stringBuilder.append(charArray.charAt(r.nextInt(charArray.length())));
+            stringBuilder.append(charArray.charAt(rnd.nextInt(charArray.length())));
         }
         return stringBuilder.toString();
     }

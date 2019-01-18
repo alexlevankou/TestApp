@@ -1,8 +1,6 @@
 package by.alexlevankou.testapp.main;
 
-import android.app.SearchManager;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -28,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements BaseContract.View
     private RecyclerView mRecyclerView;
     private TextView mNoDataText;
     private ProgressBar mProgressBar;
+    private MenuItem searchItem;
 
     private RecyclerViewAdapter mAdapter;
     private MainPresenter mPresenter;
@@ -36,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements BaseContract.View
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         mNoDataText = findViewById(R.id.no_data_text);
@@ -50,26 +49,20 @@ public class MainActivity extends AppCompatActivity implements BaseContract.View
         mPresenter.attachView(this, getLifecycle());
         mPresenter.getAllEntities();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mPresenter.addEntity();
-            }
-        });
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(view -> mPresenter.addEntity());
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
-        MenuItem searchItem = menu.findItem( R.id.action_search);
+        searchItem = menu.findItem( R.id.action_search);
         SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                searchItem.collapseActionView();
-                mPresenter.getAllEntities();
+                mPresenter.onSearchEnd();
                 return false;
             }
             @Override
@@ -84,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements BaseContract.View
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_search) {
             return true;
         }
@@ -98,16 +90,24 @@ public class MainActivity extends AppCompatActivity implements BaseContract.View
         mAdapter.setItems(entities);
     }
 
+    @Override
     public void showLoading(){
         mProgressBar.setVisibility(View.VISIBLE);
     }
 
+    @Override
     public void hideLoading(){
         mProgressBar.setVisibility(View.GONE);
     }
 
+    @Override
     public void showNoDataText(){
         mRecyclerView.setVisibility(View.GONE);
         mNoDataText.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void endSearch(){
+        searchItem.collapseActionView();
     }
 }
