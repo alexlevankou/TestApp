@@ -14,8 +14,9 @@ public class BaseContract {
         void showLoading();
         void hideLoading();
         void showNoDataText();
+        void startSearch();
         void endSearch();
-
+        void fabClicked();
     }
 
     public interface Presenter {
@@ -26,7 +27,7 @@ public class BaseContract {
         void getSearchEntities(String search);
         void search(String search);
         void updateList(List<DataEntity> entities);
-
+        void onSearchStart();
         void onSearchEnd();
     }
 

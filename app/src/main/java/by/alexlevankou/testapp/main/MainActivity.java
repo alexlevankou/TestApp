@@ -3,6 +3,7 @@ package by.alexlevankou.testapp.main;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements BaseContract.View
     private TextView mNoDataText;
     private ProgressBar mProgressBar;
     private MenuItem searchItem;
+    private FloatingActionButton fab;
 
     private RecyclerViewAdapter mAdapter;
     private MainPresenter mPresenter;
@@ -49,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements BaseContract.View
         mPresenter.attachView(this, getLifecycle());
         mPresenter.getAllEntities();
 
-        FloatingActionButton fab = findViewById(R.id.fab);
+        fab = findViewById(R.id.fab);
         fab.setOnClickListener(view -> mPresenter.addEntity());
     }
 
@@ -69,6 +71,21 @@ public class MainActivity extends AppCompatActivity implements BaseContract.View
             public boolean onQueryTextChange(String s) {
                 mPresenter.search(s);
                 return false;
+            }
+        });
+
+
+        searchItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem menuItem) {
+                mPresenter.onSearchStart();
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem menuItem) {
+                mPresenter.onSearchEnd();
+                return true;
             }
         });
         return true;
@@ -107,7 +124,17 @@ public class MainActivity extends AppCompatActivity implements BaseContract.View
     }
 
     @Override
+    public void startSearch(){
+        fab.hide();
+    }
+
+    @Override
     public void endSearch(){
-        searchItem.collapseActionView();
+        fab.show();
+    }
+
+    @Override
+    public void fabClicked(){
+        Snackbar.make(getWindow().getDecorView(), R.string.entity_added, Snackbar.LENGTH_SHORT).show();
     }
 }

@@ -62,6 +62,11 @@ public class MainPresenter extends BasePresenter<BaseContract.View> {
     }
 
     @Override
+    public void onSearchStart(){
+        view.startSearch();
+    }
+
+    @Override
     public void onSearchEnd(){
         getAllEntities();
         view.endSearch();
@@ -69,6 +74,7 @@ public class MainPresenter extends BasePresenter<BaseContract.View> {
 
     @Override
     public void addEntity() {
+        view.fabClicked();
         Completable.fromAction(() -> repository
                 .addEntity(generateRandomEntity()))
                 .subscribeOn(Schedulers.io())
