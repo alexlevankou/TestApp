@@ -1,4 +1,4 @@
-package by.alexlevankou.testapp.model;
+package by.alexlevankou.testapp.database;
 
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;

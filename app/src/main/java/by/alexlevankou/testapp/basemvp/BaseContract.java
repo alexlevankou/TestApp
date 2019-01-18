@@ -1,15 +1,13 @@
-package by.alexlevankou.testapp.presenter;
-
-import android.arch.lifecycle.Lifecycle;
+package by.alexlevankou.testapp.basemvp;
 
 import java.util.List;
 
-import by.alexlevankou.testapp.model.DataEntity;
+import by.alexlevankou.testapp.database.DataEntity;
 import io.reactivex.Flowable;
 
 public class BaseContract {
 
-    public interface View {
+    public interface BaseView {
         void updateList(List<DataEntity> entities);
         void showLoading();
         void hideLoading();
@@ -19,7 +17,7 @@ public class BaseContract {
         void fabClicked();
     }
 
-    public interface Presenter {
+    public interface BasePresenter {
         void getRepository();
         void addEntity();
         void getEntities(Flowable<List<DataEntity>> flowable);
@@ -29,9 +27,10 @@ public class BaseContract {
         void updateList(List<DataEntity> entities);
         void onSearchStart();
         void onSearchEnd();
+        void onSearchSubmit();
     }
 
-    public interface Model {
+    public interface BaseModel {
         void addEntity(DataEntity dataEntity);
         Flowable<List<DataEntity>> getAllEntities();
         Flowable<List<DataEntity>> getSearchResults(String search);

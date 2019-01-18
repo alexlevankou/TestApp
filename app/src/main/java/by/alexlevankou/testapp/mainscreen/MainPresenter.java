@@ -1,19 +1,19 @@
-package by.alexlevankou.testapp.main;
+package by.alexlevankou.testapp.mainscreen;
 
 import java.util.List;
 import java.util.Random;
 
 import by.alexlevankou.testapp.App;
-import by.alexlevankou.testapp.model.DataEntity;
-import by.alexlevankou.testapp.presenter.BaseContract;
-import by.alexlevankou.testapp.presenter.BasePresenter;
+import by.alexlevankou.testapp.database.DataEntity;
+import by.alexlevankou.testapp.basemvp.BaseContract;
+import by.alexlevankou.testapp.basemvp.BasePresenter;
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class MainPresenter extends BasePresenter<BaseContract.View> {
+public class MainPresenter extends BasePresenter<BaseContract.BaseView> {
 
     @Override
     public void getRepository(){
@@ -73,12 +73,17 @@ public class MainPresenter extends BasePresenter<BaseContract.View> {
     }
 
     @Override
+    public void onSearchSubmit(){
+        view.endSearch();
+    }
+
+    @Override
     public void addEntity() {
-        view.fabClicked();
-        Completable.fromAction(() -> repository
+        Disposable disposable = Completable.fromAction(() -> repository
                 .addEntity(generateRandomEntity()))
                 .subscribeOn(Schedulers.io())
-                .subscribe();
+                .subscribe( () -> { view.fabClicked(); });
+        disposables.add(disposable);
     }
 
     private DataEntity generateRandomEntity(){

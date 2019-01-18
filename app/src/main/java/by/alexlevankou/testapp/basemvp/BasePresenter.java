@@ -1,4 +1,4 @@
-package by.alexlevankou.testapp.presenter;
+package by.alexlevankou.testapp.basemvp;
 
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;
@@ -7,10 +7,10 @@ import android.arch.lifecycle.ViewModel;
 
 import javax.inject.Inject;
 
-import by.alexlevankou.testapp.model.Repository;
+import by.alexlevankou.testapp.mainscreen.Repository;
 import io.reactivex.disposables.CompositeDisposable;
 
-public abstract class BasePresenter<View> extends ViewModel implements LifecycleObserver, BaseContract.Presenter {
+public abstract class BasePresenter<View> extends ViewModel implements LifecycleObserver, BaseContract.BasePresenter {
 
     @Inject
     protected Repository repository;

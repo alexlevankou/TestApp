@@ -5,15 +5,15 @@ import android.content.Context;
 
 import javax.inject.Named;
 
-import by.alexlevankou.testapp.model.DataEntityDatabase;
-import by.alexlevankou.testapp.model.Repository;
+import by.alexlevankou.testapp.database.DataEntityDatabase;
+import by.alexlevankou.testapp.mainscreen.Repository;
 import dagger.Module;
 import dagger.Provides;
 
 @Module
 public class RepositoryModule {
 
-    Context context;
+    private Context context;
 
     public RepositoryModule(Context context) {
         this.context = context;

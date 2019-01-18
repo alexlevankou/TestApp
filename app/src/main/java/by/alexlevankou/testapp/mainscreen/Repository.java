@@ -1,4 +1,4 @@
-package by.alexlevankou.testapp.model;
+package by.alexlevankou.testapp.mainscreen;
 
 import android.support.annotation.Nullable;
 
@@ -7,11 +7,13 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import by.alexlevankou.testapp.presenter.BaseContract;
+import by.alexlevankou.testapp.basemvp.BaseContract;
+import by.alexlevankou.testapp.database.DataEntity;
+import by.alexlevankou.testapp.database.DataEntityDao;
 import io.reactivex.Flowable;
 
 @Singleton
-public class Repository implements BaseContract.Model {
+public class Repository implements BaseContract.BaseModel {
 
     private DataEntityDao mDataEntityDao;
 

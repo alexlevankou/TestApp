@@ -1,4 +1,4 @@
-package by.alexlevankou.testapp.main;
+package by.alexlevankou.testapp.mainscreen;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
@@ -18,16 +18,15 @@ import android.widget.TextView;
 import java.util.List;
 
 import by.alexlevankou.testapp.R;
-import by.alexlevankou.testapp.main.adapter.RecyclerViewAdapter;
-import by.alexlevankou.testapp.model.DataEntity;
-import by.alexlevankou.testapp.presenter.BaseContract;
+import by.alexlevankou.testapp.mainscreen.adapter.RecyclerViewAdapter;
+import by.alexlevankou.testapp.database.DataEntity;
+import by.alexlevankou.testapp.basemvp.BaseContract;
 
-public class MainActivity extends AppCompatActivity implements BaseContract.View {
+public class MainActivity extends AppCompatActivity implements BaseContract.BaseView {
 
     private RecyclerView mRecyclerView;
     private TextView mNoDataText;
     private ProgressBar mProgressBar;
-    private MenuItem searchItem;
     private FloatingActionButton fab;
 
     private RecyclerViewAdapter mAdapter;
@@ -59,12 +58,12 @@ public class MainActivity extends AppCompatActivity implements BaseContract.View
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
-        searchItem = menu.findItem( R.id.action_search);
+        MenuItem searchItem = menu.findItem( R.id.action_search);
         SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                mPresenter.onSearchEnd();
+                mPresenter.onSearchSubmit();
                 return false;
             }
             @Override
@@ -73,7 +72,6 @@ public class MainActivity extends AppCompatActivity implements BaseContract.View
                 return false;
             }
         });
-
 
         searchItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
             @Override
